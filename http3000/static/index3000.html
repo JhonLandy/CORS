@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <img src="http://pic27.nipic.com/20130313/9252150_092049419327_2.jpg" /> -->
+    <button class="btn">点击发送请求到4000</button>
+    <button class="btn1">服务端代理请求</button>
+</body>
+<script>
+// 预检请求：非简单请求；请求两次；options 在cors处理跨域时候回出现；
+// 跨域是浏览器行为；同源策略 ；script src img src  iframe 
+document.querySelector(".btn").onclick = function(){
+    let xhr = new XMLHttpRequest();
+    // xhr.open("post","/test",true);
+    // 设置头部；
+    
+    xhr.open("get","http://localhost:4000/http/test",true);
+    // xhr.setRequestHeader("Content-type","application/json");
+    // xhr.setRequestHeader("Authorization","some thing");
+    // 允许凭证；
+    xhr.withCredentials = true;//如果开了，后端要同时使用ctx.set("Access-Control-Allow-Credentials", true);
+    xhr.onload = function(){
+        console.log(xhr.responseText);
+        // 获取返还头部；
+        // xhr.getResponseHeader("Content-Length")
+        console.log(xhr.getAllResponseHeaders());
+        console.log(document.cookie);
+    }
+    xhr.send();
+}
+
+//服务端代理
+document.querySelector(".btn1").onclick = function(){
+    let xhr = new XMLHttpRequest();
+    // xhr.open("post","/getData",true);
+    xhr.open("post","/api/getDataService",true)
+    xhr.onload = function(){
+        // 获取返还头部；
+        console.log(xhr.responseText);
+    }
+    xhr.send();
+}
+
+</script>
+</html>
